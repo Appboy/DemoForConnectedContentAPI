@@ -32,3 +32,38 @@ Now let's deploy this to Heroku:
 1. `git push heroku develop:master`
 2. Run `python manage.py seed_data` from a Heroku console
 2. Visit your application, confirm it works
+
+Our second test:
+
+- 5 minutes of about 2000 requests per minute == 10k requests
+- We set up a page now, so we should be getting all 200s
+- Average response time of about 47ms, max around 150ms
+
+Great! We're probably hitting the table cache every time in the database,
+so we have some options for pushing our system:
+
+- We could add more concurrent requests
+- We could add way more seed data so that everything isn't cached in the database
+
+Let's add more requests.
+
+Our third test:
+
+- 5 minutes of about 9k requests per minute = 45k requests
+- Average response of 14 seconds
+
+We have a couple ways we could scale out now:
+
+- We could add additional dynos
+- We could change our server application
+
+We're going to do the second thing:
+
+Gunicorn, with naive settings, is going to use a pool of workers and doesn't handle
+concurrent requests very well. Let's install gevent and tell our server process to
+use greenlets instead of synchronous workers.
+
+Now let's deploy this change to Heroku:
+
+1. `git push heroku develop:master`
+2. Visit your application, confirm it works
