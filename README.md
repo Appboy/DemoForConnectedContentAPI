@@ -134,3 +134,23 @@ Next:
 2. `git push heroku develop:master`
 3. Run `python manage.py seed_redis` from a Heroku console
 4. Visit your application, confirm it works
+
+Our ninth test:
+
+- 10k concurrent users
+- 5 minutes of about 38k requests per minute = 190k requests
+- Response time went down to 34ms
+
+WOW! Let's see if we can handle the 15k users with Redis!
+
+Our last test:
+
+- 15k concurrent users
+- 5 minutes of about 51k requests per minute = 255k requests
+- Response time went back up, but only to 1.4s
+
+At this point, by looking at the Heroku metrics page, we're probably hitting
+peak concurrency on the dynos (note their load is extremely high). This shows
+though, that we can handle nearly 1,000 requests per second with a single
+Redis instance and two standard dynos. That's pretty good scale for a cheap
+Heroku deployment!
