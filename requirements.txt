@@ -5,4 +5,5 @@ greenlet==0.4.15
 gunicorn==19.9.0
 psycopg2-binary==2.7.6.1
 pytz==2018.9
+waitress==1.1.0
 whitenoise==4.1.2

@@ -67,3 +67,25 @@ Now let's deploy this change to Heroku:
 
 1. `git push heroku develop:master`
 2. Visit your application, confirm it works
+
+Wow! What happened? Our fourth test:
+
+- 5 minutes of about 1.8k requests per minute = 9k requests
+- Error rate of almost 90%. Something is wrong
+
+A caveat of using asynchronous workers on gunicorn is that each one is going to open
+its own connection to the database. Checking our logs, we can see that we're throwing
+exceptions because there are too many connections. Looking at the Postgres metrics
+page, we can see that we opened FAR more connections than the first time. Let's try
+something else.
+
+Waitress is a pure-Python wsgi server that will buffer requests to a fixed pool of
+workers, but still handle connections in an asynchronous way. Let's install that,
+and change our Procfile accordingly.
+
+Now let's deploy this change to Heroku:
+
+1. `git push heroku develop:master`
+2. Visit your application, confirm it works
+
+Note: you may need to restart your dynos before deploying to free up database connections.

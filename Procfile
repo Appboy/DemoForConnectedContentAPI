@@ -1,2 +1,2 @@
-web: gunicorn wsgi --log-file - -k gevent
+web: waitress-serve --port=$PORT wsgi:application
 release: python manage.py migrate
