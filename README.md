@@ -24,7 +24,7 @@ Let's make a database model, generate some fake data, then make a
 page that renders something from the database.
 
 1. `./manage migrate`
-2. `./mangage.py seed_data`
+2. `./manage.py seed_data`
 3. `./manage.py runserver`
 4. Visit `http://127.0.0.1:8000/` and confirm you get a 140 character string
 
@@ -127,3 +127,10 @@ Our eighth test:
 
 Somewhere in there we've hit peak concurrency. This next time though, we'll
 try a new strategy - let's not hit the database, but let's hit Redis instead.
+
+Next:
+
+1. Test `./manage.py seed_redis` locally
+2. `git push heroku develop:master`
+3. Run `python manage.py seed_redis` from a Heroku console
+4. Visit your application, confirm it works
